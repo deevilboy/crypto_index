@@ -25,7 +25,7 @@ class WeightsController < ApplicationController
     btc_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20170101&end=20170806"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20170101&end=20170807"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -50,7 +50,7 @@ class WeightsController < ApplicationController
     eth_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/ethereum/historical-data/?start=20170101&end=20170806"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/ethereum/historical-data/?start=20170101&end=20170807"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -77,7 +77,7 @@ class WeightsController < ApplicationController
     ltc_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/litecoin/historical-data/?start=20170101&end=20170806"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/litecoin/historical-data/?start=20170101&end=20170807"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
