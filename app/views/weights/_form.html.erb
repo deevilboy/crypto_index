@@ -1,0 +1,77 @@
+<%= form_with(model: weight, local: true) do |form| %>
+  <% if weight.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(weight.errors.count, "error") %> prohibited this weight from being saved:</h2>
+
+      <ul>
+      <% weight.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_select :date, id: :weight_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mcap_btc %>
+    <%= form.text_field :mcap_btc, id: :weight_mcap_btc %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mcap_eth %>
+    <%= form.text_field :mcap_eth, id: :weight_mcap_eth %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mcap_ltc %>
+    <%= form.text_field :mcap_ltc, id: :weight_mcap_ltc %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_mcap %>
+    <%= form.text_field :total_mcap, id: :weight_total_mcap %>
+  </div>
+
+  <div class="field">
+    <%= form.label :btc_pct %>
+    <%= form.text_field :btc_pct, id: :weight_btc_pct %>
+  </div>
+
+  <div class="field">
+    <%= form.label :eth_pct %>
+    <%= form.text_field :eth_pct, id: :weight_eth_pct %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ltc_pct %>
+    <%= form.text_field :ltc_pct, id: :weight_ltc_pct %>
+  </div>
+
+  <div class="field">
+    <%= form.label :btc_wgt %>
+    <%= form.text_field :btc_wgt, id: :weight_btc_wgt %>
+  </div>
+
+  <div class="field">
+    <%= form.label :eth_wgt %>
+    <%= form.text_field :eth_wgt, id: :weight_eth_wgt %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ltc_wgt %>
+    <%= form.text_field :ltc_wgt, id: :weight_ltc_wgt %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_wgt %>
+    <%= form.text_field :total_wgt, id: :weight_total_wgt %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2017-08-03
+  mcap_btc: 9.99
+  mcap_eth: 9.99
+  mcap_ltc: 9.99
+  total_mcap: 9.99
+  btc_pct: 9.99
+  eth_pct: 9.99
+  ltc_pct: 9.99
+  btc_wgt: 9.99
+  eth_wgt: 9.99
+  ltc_wgt: 9.99
+  total_wgt: 9.99
+
+two:
+  date: 2017-08-03
+  mcap_btc: 9.99
+  mcap_eth: 9.99
+  mcap_ltc: 9.99
+  total_mcap: 9.99
+  btc_pct: 9.99
+  eth_pct: 9.99
+  ltc_pct: 9.99
+  btc_wgt: 9.99
+  eth_wgt: 9.99
+  ltc_wgt: 9.99
+  total_wgt: 9.99

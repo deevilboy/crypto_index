@@ -1,0 +1,129 @@
+def index
+    #Call API
+
+    #### GLOBAL VARIABLES ######
+    #Initialize timestamp (dates you want to track)
+    timestamp = ['1483228800','1485907200','1488326400','1491004800','1493596800','1496275200','1498867200','1501545600']
+
+
+    ############ Start BTC Processing ###########
+
+    #Initialize Hashes to store [date, price]
+    btc_hash = {}
+
+    #Start Loop to call cryptocompare.com Historical Price APIs
+    timestamp.each { |x| 
+
+      puts x 
+
+      url = "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD&ts=#{x}"    
+      # url = "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD&ts=#{timestamp[1]}"
+      puts url
+
+      response = RestClient.get(
+                                  url
+                               )
+
+      #Store Hash of [date, BTC Price]
+      json=JSON.parse(response)
+      btc_price = json['BTC']['USD']
+      
+      #Store timestamp and btc price that day to a Hash
+      btc_hash[x] = btc_price
+    }
+
+
+
+    ############ Start ETH Processing ###########
+
+    #Initialize Hashes to store [date, price]
+    eth_hash = {}
+
+    #Start Loop to call cryptocompare.com Historical Price APIs
+    timestamp.each { |x| 
+
+      puts x 
+
+      url = "https://min-api.cryptocompare.com/data/pricehistorical?fsym=ETH&tsyms=USD&ts=#{x}"    
+      # url = "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD&ts=#{timestamp[1]}"
+      puts url
+
+      response = RestClient.get(
+                                  url
+                               )
+
+      #Store Hash of [date, ETH Price]
+      json=JSON.parse(response)
+      eth_price = json['ETH']['USD']
+      
+      #Store timestamp and btc price that day to a Hash
+      eth_hash[x] = eth_price
+    }
+
+
+
+
+    ############ Start LTC Processing ###########
+
+    #Initialize Hash to store timestamp and LiteCoin price
+    ltc_hash = {}
+    
+    #Start Loop to call cryptocompare.com Historical Price APIs
+    timestamp.each { |x| puts x 
+
+      url = "https://min-api.cryptocompare.com/data/pricehistorical?fsym=LTC&tsyms=USD&ts=#{x}"    
+      # url = "https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD&ts=#{timestamp[1]}"
+      puts url
+
+      response = RestClient.get(
+                                  url
+                               )
+
+      #Store Hash of [date, LTC Price]
+      json=JSON.parse(response)
+      ltc_price = json['LTC']['USD']
+
+      #Store timestamp and btc price that day to a Hash
+      ltc_hash[x] = ltc_price
+    }
+
+
+
+
+
+
+    ### ERROR CHECKING ####
+
+    # puts "BTC_hash Contents: "
+    # btc_hash.each do |key, value|
+    #   puts "#{key}"
+    #   puts value
+    # end
+    
+    # puts "ETH_hash Contents: "
+    # eth_hash.each do |key, value|
+    #   puts "#{key}"
+    #   puts value
+    # end
+
+    # puts "LTC_hash Contents: "
+    # ltc_hash.each do |key, value|
+    #   puts "#{key}"
+    #   puts value
+    # end
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+    @mcaps = Mcap.all
+  end

@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @weight.date %>
+</p>
+
+<p>
+  <strong>Mcap btc:</strong>
+  <%= @weight.mcap_btc %>
+</p>
+
+<p>
+  <strong>Mcap eth:</strong>
+  <%= @weight.mcap_eth %>
+</p>
+
+<p>
+  <strong>Mcap ltc:</strong>
+  <%= @weight.mcap_ltc %>
+</p>
+
+<p>
+  <strong>Total mcap:</strong>
+  <%= @weight.total_mcap %>
+</p>
+
+<p>
+  <strong>Btc pct:</strong>
+  <%= @weight.btc_pct %>
+</p>
+
+<p>
+  <strong>Eth pct:</strong>
+  <%= @weight.eth_pct %>
+</p>
+
+<p>
+  <strong>Ltc pct:</strong>
+  <%= @weight.ltc_pct %>
+</p>
+
+<p>
+  <strong>Btc wgt:</strong>
+  <%= @weight.btc_wgt %>
+</p>
+
+<p>
+  <strong>Eth wgt:</strong>
+  <%= @weight.eth_wgt %>
+</p>
+
+<p>
+  <strong>Ltc wgt:</strong>
+  <%= @weight.ltc_wgt %>
+</p>
+
+<p>
+  <strong>Total wgt:</strong>
+  <%= @weight.total_wgt %>
+</p>
+
+<%= link_to 'Edit', edit_weight_path(@weight) %> |
+<%= link_to 'Back', weights_path %>
