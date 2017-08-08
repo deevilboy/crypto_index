@@ -147,7 +147,7 @@ class WeightsController < ApplicationController
       end
         
 
-byebug
+# byebug
 
 
 
