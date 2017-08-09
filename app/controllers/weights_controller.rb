@@ -47,15 +47,19 @@ class WeightsController < ApplicationController
     btc_date_arr = []
     btc_mcap_arr = []
     btc_hash = {}
+    start_date = 0
     end_date = 0      #specify what the end date for the scraping is. This will be set to today's current date
 
     #Dynamically store today's end date => use this in the URL to scrap
+    start_date = params[:start_date] #value from the index view link
+
+    # start_date = 20170101
     end_date = Time.now.strftime("%Y%m%d")
     # end_date = 20170801
 
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20170101&end=#{end_date}"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=#{start_date}&end=#{end_date}"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -80,7 +84,7 @@ class WeightsController < ApplicationController
     eth_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/ethereum/historical-data/?start=20170101&end=#{end_date}"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/ethereum/historical-data/?start=#{start_date}&end=#{end_date}"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -107,7 +111,7 @@ class WeightsController < ApplicationController
     ltc_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/litecoin/historical-data/?start=20170101&end=#{end_date}"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/litecoin/historical-data/?start=#{start_date}&end=#{end_date}"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
