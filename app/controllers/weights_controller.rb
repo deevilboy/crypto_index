@@ -17,7 +17,7 @@ class WeightsController < ApplicationController
     ### Global Variables ###
    
 
-    ######################### Part 1) BTC ############################
+    ######################### Part 1) Scrape BTC Data ############################
     #Initialize Variables
     btc_cnt = 0
     btc_date_arr = []
@@ -42,7 +42,7 @@ class WeightsController < ApplicationController
     
 
 
-    ######################### Part 2) ETH ############################
+    ######################### Part 2) Scrape ETH Data ############################
     #Initialize Variables
     eth_cnt = 0
     eth_date_arr = []
@@ -68,7 +68,7 @@ class WeightsController < ApplicationController
   
 
 
-    ######################### Part 3) LTC ############################
+    ######################### Part 3) Scrap LTC Data ############################
     
     #Initialize Variables
     ltc_cnt = 0
@@ -118,75 +118,34 @@ class WeightsController < ApplicationController
       # Calc Index Price (sum of "weights" of all coins)
       index_price_arr = [btc_wgt_arr, eth_wgt_arr, ltc_wgt_arr].transpose.map {|x| x.reduce(:+)}
 
+      # Normalize the Index so that in day 1 it equals 100; 
+      # To Normalize divide all index price values by 1/100 of the day 1 index price
+      normalization_factor = index_price_arr[0].to_i / 100   # find day 1 index price (use this as normalization factor)
+      puts "normalization factor: "
+      puts normalization_factor
+      index_price_arr.map! { |x| x / normalization_factor} 
+
+
       #Create Hash with date and index total weight
       @index_date_price_hash = Hash[date_arr.zip(index_price_arr)] 
 
       #Calc % change in Index Price
-      # return_arr[0] = 0      # first index price has no return associated w/it (hard code this)
+      # return_arr[0] = 0      # first index price has no return associated with it (hard code this)
       for i in 1..index_price_arr.size-1
         return_arr[i] = ((index_price_arr[i] / index_price_arr[i-1])-1)*100
       end
 
-
-      #Append Index Hash with percent change calculation
-      # index_date_price_hash.each { |x| 
-      #   x << 
-
-      # }
-
+      # In Hash of {date, index_value} replace index value with [index value, 1 day return]
+      # So final @index_date_price_hash ==> {date, [index value, 1 day return]}
       counter = 0
-
-      tmp_hash = {}
       tmp = 0
       @index_date_price_hash.each do |key, value|
         tmp = @index_date_price_hash[key] 
-        @index_date_price_hash[key] = []
-        @index_date_price_hash[key].push([value,return_arr[counter]])
+        @index_date_price_hash[key] = []                                  # clear the index_value 
+        @index_date_price_hash[key].push([value,return_arr[counter]])     # and replace it w/ [index_value, 1 day return]
         counter = counter + 1
-
       end
-        
-
 # byebug
-
-
-
-
-
-
-
-  # @index_date_price_hash.each do |id, sub_hash|
-  #   puts "id:"
-  #   puts id
-  #   sub_hash.each do |key, value|
-  #   puts key
-  #   puts value
-  #   end
-  # end
-
-
-# byebug
-
-
-
-
-
-#Testing
-# puts "tmp_date_arr: "
-# puts tmp_date_arr
-# puts "tmp_mcap_arr: "
-# puts tmp_mcap_arr
-# puts "master_hash"
-# puts master_hash
-
-# tmp_date_arr.map {|i| i.include?(',') ? (i.split /, //) : i}
-# Hash[tmp_date_arr.zip(tmp_mcap_arr.map {|i| i.include?(',') ? (i.split /, //) : i})]
-
-# Get 3rd node 
-#****(/table[@class='attributes']//td[@class='value'])[2] *****
-# arry_dates = []
-# doc.xpath('/*/table[@class='table']//tbody/tr[@class='text-right']').each do |tr_node|
-# end
 
     @weights = Weight.all
   end
