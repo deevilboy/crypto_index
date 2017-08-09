@@ -6,6 +6,30 @@ require 'open-uri'
 require 'bundler/setup'
 require 'to_xls'
 
+require 'date'
+
+
+#Module to calculate Standard Deviation
+module Enumerable
+    def sum
+      self.inject(0){|accum, i| accum + i }
+    end
+
+    def mean
+      self.sum/self.length.to_f
+    end
+
+    def sample_variance
+      m = self.mean
+      sum = self.inject(0){|accum, i| accum +(i-m)**2 }
+      sum/(self.length - 1).to_f
+    end
+
+    def standard_deviation
+      return Math.sqrt(self.sample_variance)
+    end
+end 
+
 
 class WeightsController < ApplicationController
   before_action :set_weight, only: [:show, :edit, :update, :destroy]
@@ -23,9 +47,15 @@ class WeightsController < ApplicationController
     btc_date_arr = []
     btc_mcap_arr = []
     btc_hash = {}
+    end_date = 0      #specify what the end date for the scraping is. This will be set to today's current date
+
+    #Dynamically store today's end date => use this in the URL to scrap
+    end_date = Time.now.strftime("%Y%m%d")
+    # end_date = 20170801
+
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20170101&end=20170807"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20170101&end=#{end_date}"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -50,7 +80,7 @@ class WeightsController < ApplicationController
     eth_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/ethereum/historical-data/?start=20170101&end=20170807"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/ethereum/historical-data/?start=20170101&end=#{end_date}"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -77,7 +107,7 @@ class WeightsController < ApplicationController
     ltc_hash = {}
 
     #Use Nokogiri Webscraper to filter website table via xpath
-    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/litecoin/historical-data/?start=20170101&end=20170807"))   
+    doc = Nokogiri::HTML(open("https://coinmarketcap.com/currencies/litecoin/historical-data/?start=20170101&end=#{end_date}"))   
 
     # Store Date and Mcap in seperate arrays, then merge these two arrays into a hash
     doc.xpath('//*/table/tbody/tr[@class=\'text-right\']').each do |tr_child|
@@ -125,15 +155,28 @@ class WeightsController < ApplicationController
       puts normalization_factor
       index_price_arr.map! { |x| x / normalization_factor} 
 
-
       #Create Hash with date and index total weight
       @index_date_price_hash = Hash[date_arr.zip(index_price_arr)] 
 
       #Calc % change in Index Price
-      # return_arr[0] = 0      # first index price has no return associated with it (hard code this)
+      return_arr[0] = 0.0           # the first day does NOT HAVE a 1 day return value so set it to 0
       for i in 1..index_price_arr.size-1
         return_arr[i] = ((index_price_arr[i] / index_price_arr[i-1])-1)*100
       end
+
+      #Calculate Avg. Daily Change
+      #strip out the first value of return_arr (which is a 0/NIL and should not be used in the calc)
+      @avg_daily_chg = 0
+      total = return_arr.drop(1).inject(:+)
+      length = return_arr.drop(1).length
+      puts "total: #{total}"
+      puts "length: #{length}"
+      @avg_daily_chg = total.to_f / length      #0.6105%
+
+      #Calculate Standard Deviation of % Change (in index price)
+      @std_dev_of_pct_chg = 0
+      @std_dev_of_pct_chg = return_arr.drop(1).standard_deviation  #4.498%
+      
 
       # In Hash of {date, index_value} replace index value with [index value, 1 day return]
       # So final @index_date_price_hash ==> {date, [index value, 1 day return]}

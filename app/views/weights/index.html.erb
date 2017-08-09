@@ -2,13 +2,36 @@
 
 <h1> BTC/ETH/LTC Crypto Index (market cap weighted) </h1>
 
+From 3 January 1950 through 31 July 2012, the average daily return of the S&P 500 was 0.03%, and the standard deviation was 0.98% (source: <a href="https://blogs.cfainstitute.org/investor/2012/08/27/fact-file-sp-500s-sigma-events/">Yahoo Finance, CFA Institute</a>).
+<br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Crypto Index Summary Results</th>
+    </tr>
+  </thead><tbody>
+    <tr> 
+        <td> Avg. Daily Return: 
+        <td> <b><%= number_to_percentage(@avg_daily_chg, precision:1) %> </b></td>
+        <td> (vs. 0.3% for S&P500) </td>
+    </tr>
+    <tr> 
+        <td> Standard Deviation: </td>
+        <td> <b> <%= number_to_percentage(@std_dev_of_pct_chg, precision:1) %> <b/> </td>
+        <td> (vs. 0.98% for the S&P500) </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
+
 <table>
   <thead>
     <tr>
       <th>Date</th>
       <th>Index</th>
       <th>% Chg</th>
-      
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,8 +41,8 @@
       <tr>
         <td><%= id %></td>
         <% sub_hash.each do |key, value| %>
-        <td><%= number_with_precision(key, :precision => 0) %> </td>
-        <td><%= number_to_percentage(value, precision:2) %> </td>
+        <td><%= number_with_precision(key, precision:0) %> </td>
+        <td><%= number_to_percentage(value, precision:1) %> </td>
         <td><%#= link_to 'Show', weight %></td>
         <td><%#= link_to 'Edit', edit_weight_path(weight) %></td>
         <td><%#= link_to 'Destroy', weight, method: :delete, data: { confirm: 'Are you sure?' } %></td>
